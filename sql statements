@@ -1,0 +1,40 @@
+CREATE TABLE if not exists "users" (
+	"username"	TEXT NOT NULL,
+	"password"	INTEGER NOT NULL,
+	"First Name"	TEXT NOT NULL,
+	"Last Name"	TEXT NOT NULL,
+	"Gender"	TEXT NOT NULL,
+	"person ID"	INTEGER NOT NULL UNIQUE,
+	PRIMARY KEY("person ID" AUTOINCREMENT)
+);
+
+CREATE TABLE if not exists "authtoken" (
+	"token"	TEXT NOT NULL UNIQUE,
+	"timestamp" text NOT NULL,
+	"person ID"	INTEGER NOT NULL UNIQUE
+);
+
+CREATE TABLE if not exists "persons" (
+	"username"	TEXT NOT NULL,
+	"First Name"	TEXT NOT NULL,
+	"Last Name"	TEXT NOT NULL,
+	"Gender"	TEXT NOT NULL,
+	"father id" TEXT,
+	"mother id" TEXT,
+	"spouse id" TEXT,
+	"person ID"	INTEGER NOT NULL UNIQUE,
+	PRIMARY KEY("person ID" AUTOINCREMENT)
+);
+
+CREATE TABLE if not exists "event" (
+	"username"	TEXT NOT NULL,
+	"person id" TEXT NOT NULL,
+	"latitude" INTEGER NOT NULL,
+	"longitude" INTEGER NOT NULL,
+	"country" TEXT NOT NULL,
+	"city" TEXT NOT NULL,
+	"EventType" TEXT NOT NULL check ("EventType" in ('birth', 'baptism', 'christening', 'marriage', 'death')),
+	"event id"	INTEGER NOT NULL UNIQUE,
+	PRIMARY KEY("event id" AUTOINCREMENT)
+	--constraint ck_type check ("EventType" in ('birth', 'baptism', 'christening', 'marriage', 'death')),
+);
