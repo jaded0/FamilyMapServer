@@ -1,14 +1,16 @@
 CREATE TABLE if not exists "users" (
-	"username"	TEXT NOT NULL,
-	"password"	INTEGER NOT NULL,
-	"First Name"	TEXT NOT NULL,
-	"Last Name"	TEXT NOT NULL,
+	"username"	TEXT NOT NULL UNIQUE,
+	"password"	TEXT NOT NULL,
+	"email" TEXT NOT NULL,
+	"FirstName"	TEXT NOT NULL,
+	"LastName"	TEXT NOT NULL,
 	"Gender"	TEXT NOT NULL,
-	"person ID"	INTEGER NOT NULL UNIQUE,
-	PRIMARY KEY("person ID" AUTOINCREMENT)
+	"personID"	TEXT NOT NULL UNIQUE
+--	"person ID"	INTEGER NOT NULL UNIQUE,
+--	PRIMARY KEY("person ID" AUTOINCREMENT)
 );
 
-CREATE TABLE if not exists "authtoken" (
+CREATE TABLE if not exists "authtokens" (
 	"token"	TEXT NOT NULL UNIQUE,
 	"timestamp" text NOT NULL,
 	"person ID"	INTEGER NOT NULL UNIQUE
@@ -26,7 +28,7 @@ CREATE TABLE if not exists "persons" (
 	PRIMARY KEY("person ID" AUTOINCREMENT)
 );
 
-CREATE TABLE if not exists "event" (
+CREATE TABLE if not exists "events" (
 	"username"	TEXT NOT NULL,
 	"person id" TEXT NOT NULL,
 	"latitude" INTEGER NOT NULL,
