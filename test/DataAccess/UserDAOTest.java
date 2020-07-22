@@ -41,7 +41,7 @@ class UserDAOTest {
     }
 
     @Test
-    void insert() throws DataAccessException, SQLException {
+    void insert() throws DataAccessException {
         userDAO.insert(ourUser);
         assertEquals(ourUser,userDAO.retrieve(ourUser.getUsername()));
     }
@@ -90,5 +90,8 @@ class UserDAOTest {
         userDAO.insert(yetanotherUser);
         userDAO.clear();
         assertThrows(DataAccessException.class, ()-> userDAO.retrieve(ourUser.getUsername()));
+        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(otherUser.getUsername()));
+        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(anotherUser.getUsername()));
+        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(yetanotherUser.getUsername()));
     }
 }

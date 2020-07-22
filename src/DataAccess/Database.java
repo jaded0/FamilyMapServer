@@ -113,10 +113,7 @@ public class Database {
     {
 
         try (Statement stmt = conn.createStatement()){
-            String sql = "DELETE FROM users;\n" ;//+
-//                    "DELETE FROM \"authtokens\";\n" +
-//                    "DELETE FROM \"persons\";\n" +
-//                    "DELETE FROM \"events\"";
+            String sql = "DELETE FROM users";
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
             throw new DataAccessException("SQL Error encountered while clearing tables");

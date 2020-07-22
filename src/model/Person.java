@@ -1,13 +1,11 @@
 package model;
 
+import java.util.Objects;
+
 /**
  * All details associated with a person;
  */
 public class Person {
-    /**
-     * Unique identifier for this person (non-empty string)
-     */
-    String personID;
     /**
      * User (Username) to which this person belongs
      */
@@ -36,4 +34,103 @@ public class Person {
      * Person ID of person's spouse (possibly null)
      */
     String spouseID;
+    /**
+     * Unique identifier for this person (non-empty string)
+     */
+    int personID;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getFatherID() {
+        return fatherID;
+    }
+
+    public void setFatherID(String fatherID) {
+        this.fatherID = fatherID;
+    }
+
+    public String getMotherID() {
+        return motherID;
+    }
+
+    public void setMotherID(String motherID) {
+        this.motherID = motherID;
+    }
+
+    public String getSpouseID() {
+        return spouseID;
+    }
+
+    public void setSpouseID(String spouseID) {
+        this.spouseID = spouseID;
+    }
+
+    public int getPersonID() {
+        return personID;
+    }
+
+    public void setPersonID(int personID) {
+        this.personID = personID;
+    }
+
+    public Person(String username, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID, int personID) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.fatherID = fatherID;
+        this.motherID = motherID;
+        this.spouseID = spouseID;
+        this.personID = personID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+        Person person = (Person) o;
+        return getUsername().equals(person.getUsername()) &&
+                getFirstName().equals(person.getFirstName()) &&
+                getLastName().equals(person.getLastName()) &&
+                getGender().equals(person.getGender()) &&
+                Objects.equals(getFatherID(), person.getFatherID()) &&
+                Objects.equals(getMotherID(), person.getMotherID()) &&
+                Objects.equals(getSpouseID(), person.getSpouseID()) &&
+                getPersonID() == person.getPersonID();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername(), getFirstName(), getLastName(), getGender(), getFatherID(), getMotherID(), getSpouseID(), getPersonID());
+    }
 }

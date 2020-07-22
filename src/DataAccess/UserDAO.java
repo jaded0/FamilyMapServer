@@ -48,7 +48,7 @@ public class UserDAO {
      * get the user info
      * @param username
      */
-    public User retrieve(String username) throws DataAccessException, SQLException {
+    public User retrieve(String username) throws DataAccessException {
         String sql = "SELECT username, password, email, FirstName, LastName, Gender, personID " +
                 "FROM users " +
                 "WHERE username=" + username;
