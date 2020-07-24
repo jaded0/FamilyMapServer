@@ -118,6 +118,27 @@ public class Database {
         } catch (SQLException e) {
             throw new DataAccessException("SQL Error encountered while clearing tables");
         }
+
+        try (Statement stmt = conn.createStatement()){
+            String sql = "DELETE FROM persons";
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new DataAccessException("SQL Error encountered while clearing tables");
+        }
+
+        try (Statement stmt = conn.createStatement()){
+            String sql = "DELETE FROM events";
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new DataAccessException("SQL Error encountered while clearing tables");
+        }
+
+        try (Statement stmt = conn.createStatement()){
+            String sql = "DELETE FROM authtokens";
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new DataAccessException("SQL Error encountered while clearing tables");
+        }
     }
 }
 

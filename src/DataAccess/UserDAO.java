@@ -51,7 +51,7 @@ public class UserDAO {
     public User retrieve(String username) throws DataAccessException {
         String sql = "SELECT username, password, email, FirstName, LastName, Gender, personID " +
                 "FROM users " +
-                "WHERE username=" + username;
+                "WHERE username=\'" + username + "\'";
 
         User result;
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {

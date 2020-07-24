@@ -5,6 +5,13 @@ package RequestResult;
  * Works with load and fill.
  */
 public class BasicSuccessResponse extends Response {
+    public BasicSuccessResponse(){
+        this.success = true;
+    }
+    public BasicSuccessResponse(String message){
+        this.success = true;
+        this.message = message;
+    }
     /**
      * Description of the success.
      */

@@ -27,7 +27,7 @@ public class PersonDAO {
         //We can structure our string to be similar to a sql command, but if we insert question
         //marks we can change them later with help from the statement
         String sql = "INSERT INTO persons (username, FirstName, LastName, " +
-                "Gender, \"father id\", \"mother id\", \"spouse id\") VALUES(?,?,?,?,?,?,?)";
+                "Gender, \"father id\", \"mother id\", \"spouse id\", personID) VALUES(?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             //Using the statements built-in set(type) functions we can pick the question mark we want
             //to fill in and give it a proper value. The first argument corresponds to the first
@@ -39,7 +39,7 @@ public class PersonDAO {
             stmt.setString(5, person.getMotherID());
             stmt.setString(6, person.getFatherID());
             stmt.setString(7, person.getSpouseID());
-//            stmt.setString(7, person.getPersonID());
+            stmt.setString(8, person.getPersonID());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -51,16 +51,16 @@ public class PersonDAO {
      * get the Person info
      * @param personID
      */
-    public Person retrieve(int personID) throws DataAccessException {
+    public Person retrieve(String personID) throws DataAccessException {
         String sql = "SELECT username, FirstName, LastName, Gender, \"mother id\", \"father id\", \"spouse id\", personID " +
                 "FROM persons " +
-                "WHERE personID=" + personID;
+                "WHERE personID=\'" + personID + "\'";
 
         Person result;
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             ResultSet rs = stmt.executeQuery();
-            result = new Person(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getInt(8));
+            result = new Person(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8));
         } catch (SQLException e) {
             throw new DataAccessException("Error encountered while querying in the database");
         }

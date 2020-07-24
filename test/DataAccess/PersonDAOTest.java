@@ -23,7 +23,7 @@ class PersonDAOTest {
         db = new Database();
         // make some random person
         ourPerson = new Person("username", "firstname", "lastName",
-                "male", "fatherid", "momid", "spouseid", 1);
+                "male", "fatherid", "momid", "spouseid", "personID");
         //Here, we'll open the connection in preparation for the test cases to use it
         Connection conn = db.getConnection();
         //Let's clear the database as well so any lingering data doesn't affect our tests
@@ -49,7 +49,7 @@ class PersonDAOTest {
     @Test
     void insertFails() throws DataAccessException, SQLException {
         Person otherPerson = new Person("othername", "firstname", "lastName",
-                "male", "fatherid", "momid", "spouseid", 1);
+                "male", "fatherid", "momid", "spouseid", "jfieopqpersonID");
         personDAO.insert(ourPerson);
         personDAO.insert(otherPerson);
         assertNotEquals(otherPerson,personDAO.retrieve(ourPerson.getPersonID()));
@@ -59,13 +59,13 @@ class PersonDAOTest {
     void retrieve() throws DataAccessException, SQLException {
         personDAO.insert(ourPerson);
         Person otherPerson = new Person("username", "firstname", "lastName",
-                "male", "fatherid", "momid", "spouseid", 1);
+                "male", "fatherid", "momid", "spouseid", "jofpersonID");
         personDAO.insert(otherPerson);
         Person anotherPerson = new Person("usernjjbiname", "firstname", "lastName",
-                "male", "fatherid", "momid", "spouseid", 1);
+                "male", "fatherid", "momid", "spouseid", "otherpersonID");
         personDAO.insert(anotherPerson);
         Person yetanotherPerson = new Person("usehuibklrname", "firstname", "lastName",
-                "male", "fatherid", "momid", "spouseid", 1);
+                "male", "fatherid", "momid", "spouseid", "finalpersonID");
         personDAO.insert(yetanotherPerson);
         assertEquals(ourPerson,personDAO.retrieve(ourPerson.getPersonID()));
     }
@@ -79,13 +79,13 @@ class PersonDAOTest {
     void clear() throws DataAccessException {
         personDAO.insert(ourPerson);
         Person otherPerson = new Person("username", "firstname", "lastName",
-                "male", "fatherid", "momid", "spouseid", 2);
+                "male", "fatherid", "momid", "spouseid", "nipdhaspersonID");
         personDAO.insert(otherPerson);
         Person anotherPerson = new Person("username", "firstname", "lastName",
-                "male", "fatherid", "momid", "spouseid", 3);
+                "male", "fatherid", "momid", "spouseid", "fndpersonID");
         personDAO.insert(anotherPerson);
         Person yetanotherPerson = new Person("username", "firstname", "lastName",
-                "male", "fatherid", "momid", "spouseid", 4);
+                "male", "fatherid", "momid", "spouseid", "cjjjpersonID");
         personDAO.insert(yetanotherPerson);
         personDAO.clear();
         assertThrows(DataAccessException.class, ()-> personDAO.retrieve(ourPerson.getPersonID()));

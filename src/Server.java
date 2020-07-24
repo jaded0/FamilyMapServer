@@ -1,7 +1,10 @@
 import java.io.*;
 import java.net.*;
 
+import Handlers.ClearHandler;
 import Handlers.FileHandler;
+import Handlers.LoginHandler;
+import Handlers.RegisterHandler;
 import com.sun.net.httpserver.*;
 
 /*
@@ -75,8 +78,10 @@ public class Server {
 		// When the HttpServer receives an HTTP request containing the
 		// "/games/list" URL path, it will forward the request to ListGamesHandler 
 		// for processing.
-//		server.createContext("/games/list", new ListGamesHandler());
-			
+		server.createContext("/user/register", new RegisterHandler());
+		server.createContext("/user/login", new LoginHandler());
+		server.createContext("/clear", new ClearHandler());
+
 		// Create and install the HTTP handler for the "/routes/claim" URL path.
 		// When the HttpServer receives an HTTP request containing the
 		// "/routes/claim" URL path, it will forward the request to ClaimRouteHandler
@@ -88,7 +93,7 @@ public class Server {
 
 		// Log message indicating that the HttpServer is about the start accepting
 		// incoming client connections.
-		System.out.println("Starting server");
+//		System.out.println("Starting server");
 		
 		// Tells the HttpServer to start accepting incoming client connections.
 		// This method call will return immediately, and the "main" method

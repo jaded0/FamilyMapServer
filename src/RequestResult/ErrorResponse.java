@@ -16,4 +16,8 @@ public class ErrorResponse extends Response{
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public ErrorResponse(String message) {
+        this.message = message;
+    }
 }

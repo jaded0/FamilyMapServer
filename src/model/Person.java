@@ -37,7 +37,7 @@ public class Person {
     /**
      * Unique identifier for this person (non-empty string)
      */
-    int personID;
+    String personID;
 
     public String getUsername() {
         return username;
@@ -95,15 +95,15 @@ public class Person {
         this.spouseID = spouseID;
     }
 
-    public int getPersonID() {
+    public String getPersonID() {
         return personID;
     }
 
-    public void setPersonID(int personID) {
+    public void setPersonID(String personID) {
         this.personID = personID;
     }
 
-    public Person(String username, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID, int personID) {
+    public Person(String username, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID, String personID) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -126,7 +126,7 @@ public class Person {
                 Objects.equals(getFatherID(), person.getFatherID()) &&
                 Objects.equals(getMotherID(), person.getMotherID()) &&
                 Objects.equals(getSpouseID(), person.getSpouseID()) &&
-                getPersonID() == person.getPersonID();
+                getPersonID().equals(person.getPersonID());
     }
 
     @Override

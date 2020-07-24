@@ -1,9 +1,23 @@
 package model;
 
+import java.util.Objects;
+
 /**
  * All details associated with an event
  */
 public class Event {
+    public Event(String username, String personID, double latitude, double longitude, String country, String city, String eventType, int year, String eventID) {
+        this.eventID = eventID;
+        this.username = username;
+        this.personID = personID;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.country = country;
+        this.city = city;
+        this.eventType = eventType;
+        this.year = year;
+    }
+
     /**
      * Unique identifier for this event (non-empty string)
      */
@@ -111,5 +125,26 @@ public class Event {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Event)) return false;
+        Event event = (Event) o;
+        return Double.compare(event.getLatitude(), getLatitude()) == 0 &&
+                Double.compare(event.getLongitude(), getLongitude()) == 0 &&
+                getYear() == event.getYear() &&
+                getEventID().equals(event.getEventID()) &&
+                getUsername().equals(event.getUsername()) &&
+                getPersonID().equals(event.getPersonID()) &&
+                getCountry().equals(event.getCountry()) &&
+                getCity().equals(event.getCity()) &&
+                getEventType().equals(event.getEventType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEventID(), getUsername(), getPersonID(), getLatitude(), getLongitude(), getCountry(), getCity(), getEventType(), getYear());
     }
 }
