@@ -3,8 +3,6 @@ package Handlers;
 import DataAccess.AuthTokenDAO;
 import DataAccess.DataAccessException;
 import DataAccess.Database;
-import RequestResult.RegisterRequest;
-import RequestResult.Request;
 import RequestResult.Response;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -12,20 +10,20 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URI;
+
 import com.google.gson.*;
 import model.AuthToken;
-import services.RegisterService;
 
 public abstract class Handler implements HttpHandler {
     // this is where the individual stuff will happen
-    abstract protected Response workWithService(String reqData);
+    abstract protected Response workWithService(String requestURI, String reqData);
     String getOrPost;
     Boolean authenticate;
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         boolean success = false;
-
         try {
             // check whether it's get or post, and if that's right.
             if (exchange.getRequestMethod().toLowerCase().equals(getOrPost)) {
@@ -86,7 +84,7 @@ public abstract class Handler implements HttpHandler {
 
         Gson gson = new Gson();
         // also, get back a response
-        Response resp = workWithService(reqData);
+        Response resp = workWithService(exchange.getRequestURI().toString(), reqData);
         // turn that response into json string
         String jsonRespStr = gson.toJson(resp);
 

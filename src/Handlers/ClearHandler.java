@@ -1,10 +1,9 @@
 package Handlers;
 
-import RequestResult.LoginRequest;
 import RequestResult.Response;
-import com.google.gson.Gson;
 import services.ClearService;
-import services.LoginService;
+
+import java.net.URI;
 
 public class ClearHandler extends Handler{
     public ClearHandler() {
@@ -13,7 +12,7 @@ public class ClearHandler extends Handler{
     }
 
     @Override
-    protected Response workWithService(String reqData) {
+    protected Response workWithService(String requestURI, String reqData) {
         // Display/log the request JSON data
         System.out.println(reqData);
 

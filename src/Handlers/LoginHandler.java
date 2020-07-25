@@ -1,12 +1,11 @@
 package Handlers;
 
 import RequestResult.LoginRequest;
-import RequestResult.LoginRequest;
-import RequestResult.Request;
 import RequestResult.Response;
 import com.google.gson.Gson;
 import services.LoginService;
-import services.LoginService;
+
+import java.net.URI;
 
 public class LoginHandler extends Handler{
     public LoginHandler() {
@@ -15,7 +14,7 @@ public class LoginHandler extends Handler{
     }
 
     @Override
-    protected Response workWithService(String reqData) {
+    protected Response workWithService(String requestURI, String reqData) {
         // Display/log the request JSON data
         System.out.println(reqData);
 

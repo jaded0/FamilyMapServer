@@ -5,6 +5,8 @@ import model.AuthToken;
 import model.Event;
 import model.Person;
 import model.User;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -13,14 +15,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ClearServiceTest {
 
+    private Database db;
+    private Connection conn;
+
+    @BeforeEach
+    void setUp() throws DataAccessException {
+        db = new Database();
+        conn = db.getConnection();
+        //db.clearTables();
+    }
+
+    @AfterEach
+    void tearDown() throws DataAccessException {
+        db.closeConnection(false);
+    }
     @Test
     void clear() throws DataAccessException {
         ClearService clearService = new ClearService();
         clearService.clear();
 
         // populate database with things
-        Database db = new Database();
-        Connection conn = db.getConnection();
         UserDAO dao = new UserDAO(conn);
         AuthTokenDAO authTokenDAO = new AuthTokenDAO(conn);
         PersonDAO personDAO = new PersonDAO(conn);
@@ -67,8 +81,6 @@ class ClearServiceTest {
         // check and see that it's done
 
         // reconnect to the database
-        Database db = new Database();
-        Connection conn = db.getConnection();
         UserDAO dao = new UserDAO(conn);
         AuthTokenDAO authTokenDAO = new AuthTokenDAO(conn);
         PersonDAO personDAO = new PersonDAO(conn);
@@ -78,7 +90,7 @@ class ClearServiceTest {
         User user = new User("username", "password", "email@mail.com", "firstname", "lastname", "m", "personid");
         Person person = new Person("username", "firstname", "lastName",
                 "male", "fatherid", "momid", "spouseid", "personID");
-        AuthToken token = authTokenDAO.newAuthToken(user);
+        AuthToken token = new AuthToken();
         Event event = new Event("username", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "eventid");
         UserDAO finalDao = dao;
 

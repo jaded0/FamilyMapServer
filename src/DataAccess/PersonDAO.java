@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * all operations related to a person object
@@ -78,6 +79,38 @@ public class PersonDAO {
         } catch (SQLException e) {
             throw new DataAccessException("Error when trying to clear");
         }
+    }
+
+    /**
+     * Clear all persons related to user
+     * @param username The username related.
+     * @throws DataAccessException
+     */
+    public void clearFromUsername(String username) throws DataAccessException {
+        try(PreparedStatement statement = conn.prepareStatement("DELETE FROM persons WHERE username = \""+ username + "\";")){
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DataAccessException("Error when trying to clear");
+        }
+    }
+
+    /**
+     * keep generating new ids until a unique one is found
+     * @return
+     */
+    public String generateID(){
+        String id;
+        boolean go = true;
+        do {
+            id = UUID.randomUUID().toString();
+            try{
+                retrieve(id);
+                go = true;
+            } catch(DataAccessException e){
+                go = false;
+            }
+        } while (go);
+        return id;
     }
 
     /**

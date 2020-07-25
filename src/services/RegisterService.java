@@ -1,9 +1,6 @@
 package services;
 
-import DataAccess.AuthTokenDAO;
-import DataAccess.DataAccessException;
-import DataAccess.Database;
-import DataAccess.UserDAO;
+import DataAccess.*;
 import RequestResult.ErrorResponse;
 import RequestResult.RegisterRequest;
 import RequestResult.RegisterSuccessResponse;
@@ -30,14 +27,16 @@ public class RegisterService extends Service {
         if (conn == null)
             return new ErrorResponse("error registering the user or getting the database");
         // set up userDAO
-        // make some random user with random id
-        String id = UUID.randomUUID().toString();
+        // make user with random id
+        PersonDAO personDAO = new PersonDAO(conn);
+        String id = personDAO.generateID();
         User ourUser = new User(request.getUserName(), request.getPassword(), request.getEmail(),
                 request.getFirstName(), request.getLastName(), request.getGender(), id);
         try {
             //pass the connection to the DAO
             UserDAO userDAO = new UserDAO(conn);
             userDAO.insert(ourUser);
+
             return new RegisterSuccessResponse(new AuthTokenDAO(conn).newAuthToken(ourUser).getToken(), ourUser.getUsername(), id);
         } catch (DataAccessException e) {
             //e.printStackTrace();

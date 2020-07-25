@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * all operations related to an event
@@ -70,11 +71,52 @@ public class EventDAO {
     }
 
     /**
+     * keep generating new ids until a unique one is found
+     * @return
+     */
+    public String generateID(){
+        String id;
+        boolean go = true;
+        do {
+            id = UUID.randomUUID().toString();
+            try{
+                retrieve(id);
+                go = true;
+            } catch(DataAccessException e){
+                go = false;
+            }
+        } while (go);
+        return id;
+    }
+    /**
      * gets all the events
      * @return
      */
     public ArrayList<Event> getEvents(){
         return new ArrayList<Event>();
+    }
+
+    /**
+     * gets all the events
+     * @return
+     */
+    public ArrayList<Event> getEventsForID(String username) throws DataAccessException {
+        String sql = "SELECT username, personID, latitude, longitude, country, city, EventType, year, \"event id\" " +
+                "FROM events " +
+                "WHERE \"username\"=\"" + username + "\"";
+
+        ArrayList<Event> result = new ArrayList<>();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                result.add(new Event(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error encountered while querying in the database");
+        }
+
+        return result;
     }
 
     /**
