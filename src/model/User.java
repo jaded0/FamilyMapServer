@@ -9,7 +9,7 @@ public class User {
     /**
      * Unique user name (non-empty string)
      */
-    String username;
+    String userName;
     /**
      * User’s password (non-empty string)
      */
@@ -17,7 +17,7 @@ public class User {
     /**
      * User’s email address (non-empty string)
      */
-    String emailAddress;
+    String email;
     /**
      * User's first name (non-empty string)
      */
@@ -36,10 +36,10 @@ public class User {
      */
     String personID;
 
-    public User(String username, String password, String emailAddress, String firstName, String lastName, String gender, String personID) {
-        this.username = username;
+    public User(String userName, String password, String email, String firstName, String lastName, String gender, String personID) {
+        this.userName = userName;
         this.password = password;
-        this.emailAddress = emailAddress;
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -49,12 +49,12 @@ public class User {
     public User() {
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        username = username;
+    public void setUserName(String userName) {
+        userName = userName;
     }
 
     public String getPassword() {
@@ -65,12 +65,12 @@ public class User {
         this.password = password;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -110,9 +110,9 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return getUsername().equals(user.getUsername()) &&
+        return getUserName().equals(user.getUserName()) &&
                 getPassword().equals(user.getPassword()) &&
-                getEmailAddress().equals(user.getEmailAddress()) &&
+                getEmail().equals(user.getEmail()) &&
                 getFirstName().equals(user.getFirstName()) &&
                 getLastName().equals(user.getLastName()) &&
                 getGender().equals(user.getGender()) &&
@@ -121,6 +121,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUsername(), getPassword(), getEmailAddress(), getFirstName(), getLastName(), getGender(), getPersonID());
+        return Objects.hash(getUserName(), getPassword(), getEmail(), getFirstName(), getLastName(), getGender(), getPersonID());
     }
 }

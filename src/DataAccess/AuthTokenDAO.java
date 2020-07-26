@@ -26,14 +26,14 @@ public class AuthTokenDAO {
         AuthToken token = new AuthToken();
         //We can structure our string to be similar to a sql command, but if we insert question
         //marks we can change them later with help from the statement
-        String sql = "INSERT INTO authtokens (token, timestamp, personID) VALUES(?,?,?)";
+        String sql = "INSERT INTO authtokens (token, timestamp, username) VALUES(?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             //Using the statements built-in set(type) functions we can pick the question mark we want
             //to fill in and give it a proper value. The first argument corresponds to the first
             //question mark found in our sql String
             stmt.setString(1, token.getToken());
             stmt.setString(2, new Timestamp(System.currentTimeMillis()).toString());
-            stmt.setString(3, user.getPersonID());
+            stmt.setString(3, user.getUserName());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -73,5 +73,21 @@ public class AuthTokenDAO {
         } catch (SQLException e) {
             throw new DataAccessException("Error when trying to clear");
         }
+    }
+
+    public String getUsernameForAuthtoken(String authtoken) throws DataAccessException {
+        String sql = "SELECT username " +
+                "FROM authtokens " +
+                "WHERE token=\'" + authtoken + "\'";
+
+        String result;
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = stmt.executeQuery();
+            result = rs.getString(1);
+        } catch (SQLException e) {
+            throw new DataAccessException("Error encountered while querying in the database");
+        }
+        return result;
     }
 }

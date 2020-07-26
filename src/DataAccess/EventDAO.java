@@ -33,7 +33,7 @@ public class EventDAO {
             //Using the statements built-in set(type) functions we can pick the question mark we want
             //to fill in and give it a proper value. The first argument corresponds to the first
             //question mark found in our sql String
-            stmt.setString(1, event.getUsername());
+            stmt.setString(1, event.getAssociatedUsername());
             stmt.setString(2, event.getPersonID());
             stmt.setDouble(3, event.getLatitude());
             stmt.setDouble(4, event.getLongitude());
@@ -97,13 +97,13 @@ public class EventDAO {
     }
 
     /**
-     * gets all the events
+     * gets all the events for a specific id
      * @return
      */
-    public ArrayList<Event> getEventsForID(String username) throws DataAccessException {
+    public ArrayList<Event> getEventsForID(String id) throws DataAccessException {
         String sql = "SELECT username, personID, latitude, longitude, country, city, EventType, year, \"event id\" " +
                 "FROM events " +
-                "WHERE \"username\"=\"" + username + "\"";
+                "WHERE \"personID\"=\"" + id + "\"";
 
         ArrayList<Event> result = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -117,14 +117,6 @@ public class EventDAO {
         }
 
         return result;
-    }
-
-    /**
-     * fill event data for this user.
-     * @param user
-     */
-    public void fill(User user){
-
     }
 
     /**

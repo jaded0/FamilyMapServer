@@ -1,6 +1,5 @@
 package DataAccess;
 
-import model.Event;
 import model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +42,7 @@ class UserDAOTest {
     @Test
     void insert() throws DataAccessException {
         userDAO.insert(ourUser);
-        assertEquals(ourUser,userDAO.retrieve(ourUser.getUsername()));
+        assertEquals(ourUser,userDAO.retrieve(ourUser.getUserName()));
     }
 
     @Test
@@ -52,7 +51,7 @@ class UserDAOTest {
                 "firstname", "lastname", "female", "some alternate sort of id");
         userDAO.insert(ourUser);
         userDAO.insert(otherUser);
-        assertNotEquals(otherUser,userDAO.retrieve(ourUser.getUsername()));
+        assertNotEquals(otherUser,userDAO.retrieve(ourUser.getUserName()));
         assertThrows(DataAccessException.class, ()-> userDAO.insert(ourUser));
     }
 
@@ -68,12 +67,12 @@ class UserDAOTest {
         User yetanotherUser = new User("yetanotherusername", "password", "address@email.com",
                 "firstname", "lastname", "female", "even more alternate sort of id");
         userDAO.insert(yetanotherUser);
-        assertEquals(ourUser,userDAO.retrieve(ourUser.getUsername()));
+        assertEquals(ourUser,userDAO.retrieve(ourUser.getUserName()));
     }
 
     @Test
     void retrieveFails() throws DataAccessException, SQLException {
-        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(ourUser.getUsername()));
+        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(ourUser.getUserName()));
     }
 
     @Test
@@ -89,9 +88,9 @@ class UserDAOTest {
                 "firstname", "lastname", "female", "even more alternate sort of id");
         userDAO.insert(yetanotherUser);
         userDAO.clear();
-        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(ourUser.getUsername()));
-        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(otherUser.getUsername()));
-        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(anotherUser.getUsername()));
-        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(yetanotherUser.getUsername()));
+        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(ourUser.getUserName()));
+        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(otherUser.getUserName()));
+        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(anotherUser.getUserName()));
+        assertThrows(DataAccessException.class, ()-> userDAO.retrieve(yetanotherUser.getUserName()));
     }
 }

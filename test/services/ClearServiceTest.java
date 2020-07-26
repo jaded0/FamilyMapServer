@@ -64,7 +64,7 @@ class ClearServiceTest {
 
         // make sure that it's all really erased
         UserDAO finalDao = dao;
-        assertThrows(DataAccessException.class, ()-> finalDao.retrieve(user.getUsername()));
+        assertThrows(DataAccessException.class, ()-> finalDao.retrieve(user.getUserName()));
         assertFalse(authTokenDAO.verify(token));
         PersonDAO finalPersonDAO = personDAO;
         assertThrows(DataAccessException.class, ()-> finalPersonDAO.retrieve(person.getPersonID()));
@@ -94,7 +94,7 @@ class ClearServiceTest {
         Event event = new Event("username", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "eventid");
         UserDAO finalDao = dao;
 
-        assertThrows(DataAccessException.class, ()-> finalDao.retrieve(user.getUsername()));
+        assertThrows(DataAccessException.class, ()-> finalDao.retrieve(user.getUserName()));
         assertFalse(authTokenDAO.verify(token));
         PersonDAO finalPersonDAO = personDAO;
         assertThrows(DataAccessException.class, ()-> finalPersonDAO.retrieve(person.getPersonID()));

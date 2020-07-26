@@ -13,7 +13,7 @@ CREATE TABLE if not exists "users" (
 CREATE TABLE if not exists "authtokens" (
 	"token"	TEXT NOT NULL UNIQUE,
 	"timestamp" text NOT NULL,
-	"personID"	TEXT NOT NULL
+	"username"	TEXT NOT NULL
 );
 
 CREATE TABLE if not exists "persons" (
@@ -35,7 +35,7 @@ CREATE TABLE if not exists "events" (
 	"longitude" INTEGER NOT NULL,
 	"country" TEXT NOT NULL,
 	"city" TEXT NOT NULL,
-	"EventType" TEXT NOT NULL check ("EventType" in ('birth', 'baptism', 'christening', 'marriage', 'death')),
+	"EventType" TEXT NOT NULL, --check ("EventType" in ('birth', 'baptism', 'christening', 'marriage', 'death')),
 	"year" INTEGER NOT NULL,
 	"event id"	TEXT NOT NULL UNIQUE
 	--PRIMARY KEY("event id" AUTOINCREMENT)

@@ -20,6 +20,7 @@ public abstract class Handler implements HttpHandler {
     abstract protected Response workWithService(String requestURI, String reqData);
     String getOrPost;
     Boolean authenticate;
+    String authToken;
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -35,7 +36,7 @@ public abstract class Handler implements HttpHandler {
                     if (reqHeaders.containsKey("Authorization")) {
 
                         // Extract the auth token from the "Authorization" header
-                        String authToken = reqHeaders.getFirst("Authorization");
+                        authToken = reqHeaders.getFirst("Authorization");
                         // Verify that the auth token exists
                         // sloppily sets up the database, connection, dao, and token object to do so.
                         if (new AuthTokenDAO(new Database().getConnection()).verify(new AuthToken(authToken))) {

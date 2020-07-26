@@ -1,5 +1,9 @@
 package RequestResult;
 
+import model.Event;
+import model.Person;
+import model.User;
+
 import java.util.ArrayList;
 
 /**
@@ -10,13 +14,25 @@ public class LoadRequest extends Request{
     /**
      * Array of User objects
      */
-    ArrayList<String> users;
+    ArrayList<User> users;
     /**
      * Array of Person objects
      */
-    ArrayList<String> persons;
+    ArrayList<Person> persons;
     /**
      * Array of event objects
      */
-    ArrayList<String> events;
+    ArrayList<Event> events;
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public ArrayList<Person> getPersons() {
+        return persons;
+    }
+
+    public ArrayList<Event> getEvents() {
+        return events;
+    }
 }

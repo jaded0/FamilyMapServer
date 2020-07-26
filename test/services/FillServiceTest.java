@@ -50,7 +50,7 @@ class FillServiceTest {
         // now fill data for them
 
         FillService service = new FillService();
-        service.fill(ourUser.getUsername(), 4);
+        service.fill(ourUser.getUserName(), 4);
 
         db = new Database();
         conn = db.getConnection();
@@ -93,15 +93,13 @@ class FillServiceTest {
         // now fill data for them
 
         FillService service = new FillService();
-        service.fill(ourUser.getUsername(), 4);
+        service.fill(ourUser.getUserName(), 4);
 
         db = new Database();
         conn = db.getConnection();
-        personDAO = new PersonDAO(conn);
         EventDAO eventDAO = new EventDAO(conn);
-        // this next line is something the IDE wanted me to do to get it to compile. so i did it
-        PersonDAO finalPersonDAO = personDAO;
-        assertDoesNotThrow(()-> eventDAO.getEventsForID(ourUser.getUsername()));
-        assertEquals(93, eventDAO.getEventsForID(ourUser.getUsername()).size());
+        assertDoesNotThrow(()-> eventDAO.getEventsForID(ourUser.getPersonID()));
+        // test and make sure that three events were made for our person user
+        assertEquals(3, eventDAO.getEventsForID(ourUser.getPersonID()).size());
     }
 }

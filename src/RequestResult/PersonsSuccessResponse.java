@@ -1,5 +1,7 @@
 package RequestResult;
 
+import model.Person;
+
 import java.util.ArrayList;
 
 /**
@@ -9,13 +11,13 @@ public class PersonsSuccessResponse extends Response{
     /**
      * Stores all family members of the current user.
      */
-    private ArrayList<String> members;
+    private ArrayList<Person> members;
 
-    public ArrayList<String> getMembers() {
+    public ArrayList<Person> getMembers() {
         return members;
     }
 
-    public void setMembers(ArrayList<String> members) {
+    public void setMembers(ArrayList<Person> members) {
         this.members = members;
     }
 }

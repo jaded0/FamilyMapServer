@@ -102,4 +102,16 @@ class AuthTokenDAOTest {
         assertFalse(tokenDAO.verify(yetantoken));
         assertFalse(tokenDAO.verify(jfieotoken));
     }
+
+    @Test
+    void getUsernameForAuthtoken() throws DataAccessException {
+        AuthToken token = tokenDAO.newAuthToken(ourUser);
+        assertEquals(ourUser.getUserName(), tokenDAO.getUsernameForAuthtoken(token.getToken()));
+    }
+
+    @Test
+    void getUsernameForAuthtokenDoesntExist() {
+        // this will throw an exception because that auth token cannot be found
+        assertThrows(DataAccessException.class, ()-> tokenDAO.getUsernameForAuthtoken("nothinguseful"));
+    }
 }

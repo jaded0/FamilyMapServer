@@ -4,6 +4,17 @@ package RequestResult;
  * Model for the single Person object with the specified ID.
  */
 public class PersonSuccessResponse extends Response{
+    public PersonSuccessResponse(String associatedUsername, String personID, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
+        this.associatedUsername = associatedUsername;
+        this.personID = personID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.fatherID = fatherID;
+        this.motherID = motherID;
+        this.spouseID = spouseID;
+    }
+
     /**
      * Name of user account this person belongs to.
      */

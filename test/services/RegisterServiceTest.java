@@ -7,12 +7,7 @@ import RequestResult.RegisterRequest;
 import RequestResult.RegisterSuccessResponse;
 import RequestResult.Response;
 import model.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-
-import java.sql.Connection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,15 +20,15 @@ class RegisterServiceTest {
         dao.clear();
         db.closeConnection(true);
         RegisterService service = new RegisterService();
-        RegisterRequest request = new RegisterRequest("username", "password", "email@mail.com", "firstname", "lastname", "m");
+        RegisterRequest request = new RegisterRequest("jaden", "password", "email@mail.com", "firstname", "lastname", "m");
         Response response = service.register(request);
         assertTrue(response.isSuccess());
         if (response.isSuccess()) {
             RegisterSuccessResponse realResponse = (RegisterSuccessResponse) response;
-            User correctUser = new User("username", "password", "email@mail.com", "firstname", "lastname", "m", realResponse.getPersonID());
+            User correctUser = new User("jaden", "password", "email@mail.com", "firstname", "lastname", "m", realResponse.getPersonID());
             db = new Database();
             dao = new UserDAO(db.getConnection());
-            assertEquals(correctUser, dao.retrieve(correctUser.getUsername()));
+            assertEquals(correctUser, dao.retrieve(correctUser.getUserName()));
             db.closeConnection(false);
         }
     }

@@ -1,7 +1,6 @@
 package DataAccess;
 
 import model.Person;
-import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,7 +32,7 @@ public class PersonDAO {
             //Using the statements built-in set(type) functions we can pick the question mark we want
             //to fill in and give it a proper value. The first argument corresponds to the first
             //question mark found in our sql String
-            stmt.setString(1, person.getUsername());
+            stmt.setString(1, person.getAssociatedUsername());
             stmt.setString(2, person.getFirstName());
             stmt.setString(3, person.getLastName());
             stmt.setString(4, person.getGender());
@@ -117,8 +116,23 @@ public class PersonDAO {
      * gets all the people
      * @return
      */
-    public ArrayList<Person> getPersons(){
-        return new ArrayList<Person>();
+    public ArrayList<Person> getPersonsForUsername(String username) throws DataAccessException {
+        String sql = "SELECT username, FirstName, LastName, Gender, \"mother id\", \"father id\", \"spouse id\", personID " +
+                "FROM persons " +
+                "WHERE \"username\"=\"" + username + "\"";
+
+        ArrayList<Person> result = new ArrayList<Person>();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                result.add(new Person(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error encountered while querying in the database");
+        }
+
+        return result;
     }
 
     /**

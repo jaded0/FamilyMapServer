@@ -9,7 +9,7 @@ public class Person {
     /**
      * User (Username) to which this person belongs
      */
-    String username;
+    String associatedUsername;
     /**
      * Person's first name (non-empty string)
      */
@@ -39,12 +39,12 @@ public class Person {
      */
     String personID;
 
-    public String getUsername() {
-        return username;
+    public String getAssociatedUsername() {
+        return associatedUsername;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAssociatedUsername(String associatedUsername) {
+        this.associatedUsername = associatedUsername;
     }
 
     public String getFirstName() {
@@ -103,8 +103,8 @@ public class Person {
         this.personID = personID;
     }
 
-    public Person(String username, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID, String personID) {
-        this.username = username;
+    public Person(String associatedUsername, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID, String personID) {
+        this.associatedUsername = associatedUsername;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -119,7 +119,7 @@ public class Person {
         if (this == o) return true;
         if (!(o instanceof Person)) return false;
         Person person = (Person) o;
-        return getUsername().equals(person.getUsername()) &&
+        return getAssociatedUsername().equals(person.getAssociatedUsername()) &&
                 getFirstName().equals(person.getFirstName()) &&
                 getLastName().equals(person.getLastName()) &&
                 getGender().equals(person.getGender()) &&
@@ -131,6 +131,6 @@ public class Person {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUsername(), getFirstName(), getLastName(), getGender(), getFatherID(), getMotherID(), getSpouseID(), getPersonID());
+        return Objects.hash(getAssociatedUsername(), getFirstName(), getLastName(), getGender(), getFatherID(), getMotherID(), getSpouseID(), getPersonID());
     }
 }

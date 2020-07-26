@@ -6,9 +6,9 @@ import java.util.Objects;
  * All details associated with an event
  */
 public class Event {
-    public Event(String username, String personID, double latitude, double longitude, String country, String city, String eventType, int year, String eventID) {
+    public Event(String associatedUsername, String personID, double latitude, double longitude, String country, String city, String eventType, int year, String eventID) {
         this.eventID = eventID;
-        this.username = username;
+        this.associatedUsername = associatedUsername;
         this.personID = personID;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -25,7 +25,7 @@ public class Event {
     /**
      * User (Username) to which this person belongs
      */
-    String username;
+    String associatedUsername;
     /**
      * ID of person to which this event belongs
      */
@@ -63,12 +63,12 @@ public class Event {
         this.eventID = eventID;
     }
 
-    public String getUsername() {
-        return username;
+    public String getAssociatedUsername() {
+        return associatedUsername;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAssociatedUsername(String associatedUsername) {
+        this.associatedUsername = associatedUsername;
     }
 
     public String getPersonID() {
@@ -136,7 +136,7 @@ public class Event {
                 Double.compare(event.getLongitude(), getLongitude()) == 0 &&
                 getYear() == event.getYear() &&
                 getEventID().equals(event.getEventID()) &&
-                getUsername().equals(event.getUsername()) &&
+                getAssociatedUsername().equals(event.getAssociatedUsername()) &&
                 getPersonID().equals(event.getPersonID()) &&
                 getCountry().equals(event.getCountry()) &&
                 getCity().equals(event.getCity()) &&
@@ -145,6 +145,6 @@ public class Event {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEventID(), getUsername(), getPersonID(), getLatitude(), getLongitude(), getCountry(), getCity(), getEventType(), getYear());
+        return Objects.hash(getEventID(), getAssociatedUsername(), getPersonID(), getLatitude(), getLongitude(), getCountry(), getCity(), getEventType(), getYear());
     }
 }

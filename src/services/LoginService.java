@@ -6,8 +6,6 @@ import DataAccess.UserDAO;
 import RequestResult.*;
 import model.User;
 
-import java.util.UUID;
-
 /**
  * Logs in the user and returns an auth token.
  */
@@ -30,7 +28,7 @@ public class LoginService extends Service{
             User user = userDAO.retrieve(request.getUserName());
 
             if(user.getPassword().equals(request.getPassword())) return new LoginSuccessResponse(new AuthTokenDAO(conn).newAuthToken(user).getToken(),
-                    user.getUsername(), user.getPersonID());
+                    user.getUserName(), user.getPersonID());
             else return new ErrorResponse("Error wrong password");
         } catch (DataAccessException e) {
             //e.printStackTrace();

@@ -5,9 +5,11 @@ import model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import services.FillService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,5 +86,29 @@ class EventDAOTest {
         assertThrows(DataAccessException.class, ()-> eventDAO.retrieve(otherEvent.getEventID()));
         assertThrows(DataAccessException.class, ()-> eventDAO.retrieve(anotherEvent.getEventID()));
         assertThrows(DataAccessException.class, ()-> eventDAO.retrieve(yetanotherEvent.getEventID()));
+    }
+
+    @Test
+    void getEventsForID() throws DataAccessException {
+        eventDAO.insert(ourEvent);
+        Event otherEvent = new Event("username", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "djfieventid");
+        eventDAO.insert(otherEvent);
+        Event anotherEvent = new Event("username", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "dkmkeventid");
+        eventDAO.insert(anotherEvent);
+        ArrayList<Event> eventList = new ArrayList<>();
+        eventList.add(ourEvent);eventList.add(otherEvent);eventList.add(anotherEvent);
+        assertEquals(eventList, eventDAO.getEventsForID("personid"));
+    }
+
+    @Test
+    void getEventsForIDWrongID() throws DataAccessException {
+        eventDAO.insert(ourEvent);
+        Event otherEvent = new Event("username", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "djfieventid");
+        eventDAO.insert(otherEvent);
+        Event anotherEvent = new Event("username", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "dkmkeventid");
+        eventDAO.insert(anotherEvent);
+        ArrayList<Event> eventList = new ArrayList<>();
+        eventList.add(ourEvent);eventList.add(otherEvent);eventList.add(anotherEvent);
+        assertNotEquals(eventList, eventDAO.getEventsForID("noidthatworks"));
     }
 }
