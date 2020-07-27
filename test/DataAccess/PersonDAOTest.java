@@ -1,5 +1,6 @@
 package DataAccess;
 
+import model.Event;
 import model.Person;
 import model.User;
 import org.junit.jupiter.api.AfterEach;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +24,7 @@ class PersonDAOTest {
         //lets create a new database
         db = new Database();
         // make some random person
-        ourPerson = new Person("username", "firstname", "lastName",
+        ourPerson = new Person("myusername", "firstname", "lastName",
                 "male", "fatherid", "momid", "spouseid", "personID");
         //Here, we'll open the connection in preparation for the test cases to use it
         Connection conn = db.getConnection();
@@ -133,4 +135,32 @@ class PersonDAOTest {
         assertDoesNotThrow(()-> personDAO.retrieve(yetanotherPerson.getPersonID()));
     }
 
+    @Test
+    void getPersonsForUsername() throws DataAccessException {
+        personDAO.insert(ourPerson);
+        Person otherPerson = new Person("username", "firstname", "lastName",
+                "male", "fatherid", "momid", "spouseid", "pdiofnersonid");
+        personDAO.insert(otherPerson);
+        Person anotherPerson = new Person("username", "firstname", "lastName",
+                "male", "fatherid", "momid", "spouseid", "pesnoirsonid");
+        personDAO.insert(anotherPerson);
+        ArrayList<Person> personList = new ArrayList<>();
+        personList.add(ourPerson);personList.add(otherPerson);personList.add(anotherPerson);
+        assertEquals(personList, personDAO.getPersonsForUsername("username"));
+    }
+
+    @Test
+    void getPersonsForUsernameWrongUsername() throws DataAccessException {
+        personDAO.insert(ourPerson);
+        Person otherPerson = new Person("myusername", "firstname", "lastName",
+                "male", "fatherid", "momid", "spouseid", "persoddddnid");
+        personDAO.insert(otherPerson);
+        Person anotherPerson = new Person("myusername", "firstname", "lastName",
+                "male", "fatherid", "momid", "spouseid", "personaasdid");
+        personDAO.insert(anotherPerson);
+        ArrayList<Person> personList = new ArrayList<>();
+        personList.add(ourPerson);personList.add(otherPerson);personList.add(anotherPerson);
+        // weirdly enough, getPersonsForUsername("username); literal will return all persons, because "username" matches every username
+        assertNotEquals(personList, personDAO.getPersonsForUsername("notmyusername"));
+    }
 }

@@ -19,7 +19,7 @@ public class FillHandler extends Handler{
         // take the username and generations out of the URI
         String[] commands = requestURI.split("/");
         String username = commands[2];
-        int generations = Integer.parseInt(commands[3]);
+//        int generations = Integer.parseInt(commands[3]);
 
 
         // Create a request out of the body
@@ -28,6 +28,9 @@ public class FillHandler extends Handler{
         FillService service = new FillService();
         // also, get back a response
 
-        return service.fill(username, generations);
+        if (commands.length>3)
+            return service.fill(username, Integer.parseInt(commands[3]));
+        else
+            return service.fill(username, 4);
     }
 }

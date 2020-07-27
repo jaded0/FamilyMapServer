@@ -1,6 +1,7 @@
 package DataAccess;
 
 import model.Event;
+import model.Person;
 import model.User;
 
 import java.sql.Connection;
@@ -88,12 +89,28 @@ public class EventDAO {
         } while (go);
         return id;
     }
+
     /**
      * gets all the events
      * @return
      */
-    public ArrayList<Event> getEvents(){
-        return new ArrayList<Event>();
+    public ArrayList<Event> getEventsForUsername(String username) throws DataAccessException {
+        String sql = "SELECT username, personID, latitude, longitude, country, city, EventType, year, \"event id\" " +
+                "FROM events " +
+                "WHERE \"username\"=\"" + username + "\"";
+
+        ArrayList<Event> result = new ArrayList<Event>();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                result.add(new Event(rs.getString(1),rs.getString(2),rs.getDouble(3),rs.getDouble(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getInt(8),rs.getString(9)));
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error encountered while querying in the database");
+        }
+
+        return result;
     }
 
     /**

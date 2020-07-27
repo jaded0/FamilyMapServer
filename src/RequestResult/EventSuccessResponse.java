@@ -113,4 +113,16 @@ public class EventSuccessResponse extends Response{
     public void setYear(int year) {
         this.year = year;
     }
+
+    public EventSuccessResponse(String associatedUsername, String eventID, String personID, double latitude, double longitude, String country, String city, String eventType, int year) {
+        this.associatedUsername = associatedUsername;
+        this.eventID = eventID;
+        this.personID = personID;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.country = country;
+        this.city = city;
+        this.eventType = eventType;
+        this.year = year;
+    }
 }

@@ -1,10 +1,10 @@
 package Handlers;
 
 import RequestResult.Response;
-import services.PersonService;
+import services.EventService;
 
-public class PersonHandler extends Handler{
-    public PersonHandler() {
+public class EventHandler extends Handler{
+    public EventHandler() {
         getOrPost = "get";
         authenticate = true;
     }
@@ -16,10 +16,10 @@ public class PersonHandler extends Handler{
         // take the personID out of the URI
         String[] commands = requestURI.split("/");
         // get back a response from the service
-        PersonService service = new PersonService();
+        EventService service = new EventService();
         if (commands.length>2)
-            return service.singlePerson(commands[2]);
+            return service.singleEvent(commands[2]);
         else
-            return service.allPersons(authToken);
+            return service.allEvents(authToken);
     }
 }

@@ -78,9 +78,10 @@ public class Server {
 		server.createContext("/user/register", new RegisterHandler());
 		server.createContext("/user/login", new LoginHandler());
 		server.createContext("/clear", new ClearHandler());
-		server.createContext("/fill/", new FillHandler());
+		server.createContext("/fill", new FillHandler());
 		server.createContext("/load", new LoadHandler());
-		server.createContext("/person/", new PersonHandler());
+		server.createContext("/person", new PersonHandler());
+		server.createContext("/event", new EventHandler());
 
 		// Create and install the HTTP handler for the "/routes/claim" URL path.
 		// When the HttpServer receives an HTTP request containing the

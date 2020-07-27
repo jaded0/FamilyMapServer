@@ -24,7 +24,7 @@ class EventDAOTest {
         //lets create a new database
         db = new Database();
         // make some random event
-        ourEvent = new Event("username", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "eventid");
+        ourEvent = new Event("myusername", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "eventid");
         //Here, we'll open the connection in preparation for the test cases to use it
         Connection conn = db.getConnection();
         //Let's clear the database as well so any lingering data doesn't affect our tests
@@ -110,5 +110,30 @@ class EventDAOTest {
         ArrayList<Event> eventList = new ArrayList<>();
         eventList.add(ourEvent);eventList.add(otherEvent);eventList.add(anotherEvent);
         assertNotEquals(eventList, eventDAO.getEventsForID("noidthatworks"));
+    }
+
+    @Test
+    void getEventsForUsername() throws DataAccessException {
+        eventDAO.insert(ourEvent);
+        Event otherEvent = new Event("username", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "djfieventid");
+        eventDAO.insert(otherEvent);
+        Event anotherEvent = new Event("username", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "dkmkeventid");
+        eventDAO.insert(anotherEvent);
+        ArrayList<Event> eventList = new ArrayList<>();
+        eventList.add(ourEvent);eventList.add(otherEvent);eventList.add(anotherEvent);
+        assertEquals(eventList, eventDAO.getEventsForUsername("username"));
+    }
+
+    @Test
+    void getEventsForUsernameWrongUsername() throws DataAccessException {
+        eventDAO.insert(ourEvent);
+        Event otherEvent = new Event("myusername", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "djfieventid");
+        eventDAO.insert(otherEvent);
+        Event anotherEvent = new Event("myusername", "personid", 12345.0, 12345.0, "USA", "zion", "birth", 2020, "dkmkeventid");
+        eventDAO.insert(anotherEvent);
+        ArrayList<Event> eventList = new ArrayList<>();
+        eventList.add(ourEvent);eventList.add(otherEvent);eventList.add(anotherEvent);
+        // weirdly enough, getEventsForUsername("username); literal will return all events, because "username" matches every username
+        assertNotEquals(eventList, eventDAO.getEventsForUsername("nottheusername"));
     }
 }
