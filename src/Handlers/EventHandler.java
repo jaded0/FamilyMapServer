@@ -18,7 +18,7 @@ public class EventHandler extends Handler{
         // get back a response from the service
         EventService service = new EventService();
         if (commands.length>2)
-            return service.singleEvent(commands[2]);
+            return service.singleEvent(commands[2], authToken);
         else
             return service.allEvents(authToken);
     }

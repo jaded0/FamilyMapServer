@@ -65,7 +65,7 @@ public class AuthTokenDAO {
 
     /**
      * CLEAR *zap* *boom*
-     * they're all dead, there's no trace of any user anymore.
+     * they're all dead, there's no trace of any authtoken anymore.
      */
     public void clear() throws DataAccessException {
         try(PreparedStatement statement = conn.prepareStatement("DELETE FROM authtokens;")){
@@ -74,6 +74,13 @@ public class AuthTokenDAO {
             throw new DataAccessException("Error when trying to clear");
         }
     }
+
+    /**
+     * Give it the authtoken, get back the username associated with it.
+     * @param authtoken Any valid authtoken
+     * @return The username associated with the authtoken given.
+     * @throws DataAccessException
+     */
 
     public String getUsernameForAuthtoken(String authtoken) throws DataAccessException {
         String sql = "SELECT username " +

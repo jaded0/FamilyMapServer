@@ -36,7 +36,7 @@ public class FillService extends Service{
             dao.clearFromUsername(username);
 
             // recursively fill with generated data
-            fillHelper(user.getGender(),generations,dao,eventDAO,username,user.getPersonID(),null, 2025); // sad
+            fillHelper(user.getFirstName(), user.getLastName(), user.getGender(),generations,dao,eventDAO,username,user.getPersonID(),null, 2025, null); // sad
 
         } catch (DataAccessException | FileNotFoundException e) {
             e.printStackTrace();
@@ -50,10 +50,13 @@ public class FillService extends Service{
         }
         return new BasicSuccessResponse("Successfully added " + personsAdded + " persons and " + eventsAdded + " events to the database.");
     }
-    private void fillHelper(String gender, int generation, PersonDAO dao, EventDAO eventDAO, String username, String id,
-                            String spouseID, int childsBirthYear) throws DataAccessException, FileNotFoundException {
+    private void fillHelper(String firstName, String lastName, String gender, int generation, PersonDAO dao, EventDAO eventDAO, String username, String id,
+                            String spouseID, int childsBirthYear, Event marriage) throws DataAccessException, FileNotFoundException {
+
+        // fill life events
         int birthYear = childsBirthYear-20;
-        fillEvents(username,id,childsBirthYear, eventDAO);
+
+        fillEvents(username,id,childsBirthYear,eventDAO, marriage);
         Person person;
 
         // randomly generate personal details from a file
@@ -63,11 +66,11 @@ public class FillService extends Service{
         Gson gson = new Gson();
         NamesData namesData = gson.fromJson(reader, NamesData.class);
         // assign them to variables to be used in the database
-        String firstName = namesData.getRandomName();
+        if (firstName==null) firstName = namesData.getRandomName();
         //repeat
         reader = new FileReader("json/snames.json");
         namesData = gson.fromJson(reader, NamesData.class);
-        String lastName = namesData.getRandomName();
+        if (lastName == null) lastName = namesData.getRandomName();
 //        reader.close();
 
         // check whether to generate parents or not, then generate person
@@ -75,8 +78,14 @@ public class FillService extends Service{
             // make parents with random id
             String dadID = dao.generateID();
             String momID = dao.generateID();
-            fillHelper("m", generation-1, dao, eventDAO, username, dadID, momID, birthYear);
-            fillHelper("f", generation-1, dao, eventDAO, username, momID, dadID, birthYear);
+            Event parentsMarriage = generateRandomEvent(username, dadID, eventDAO, "marriage", childsBirthYear-3);
+            // fill father, and ancestors (generate first and last name)
+            fillHelper(null, null,"m", generation-1, dao, eventDAO, username, dadID, momID, birthYear, parentsMarriage);
+            // make the mom's marriage as well
+            parentsMarriage.setPersonID(momID);parentsMarriage.setEventID(dao.generateID());
+            // fill father, and ancestors (generate first and last name)
+            fillHelper(null, null, "f", generation-1, dao, eventDAO, username, momID, dadID, birthYear, parentsMarriage);
+            // create the person
             person = new Person(username,
                     firstName,
                     lastName,
@@ -99,50 +108,35 @@ public class FillService extends Service{
         personsAdded++;
     }
 
-    private void fillEvents(String username, String personID, int childsBirthYear, EventDAO dao) throws FileNotFoundException, DataAccessException {
+    private void fillEvents(String username, String personID, int childsBirthYear, EventDAO dao, Event marriage) throws FileNotFoundException, DataAccessException {
+        dao.insert(generateRandomEvent(username, personID, dao, "birth",childsBirthYear-20));
+        eventsAdded++;
+
+        // fill birth
+        if (marriage != null) dao.insert(marriage);
+        else dao.insert(generateRandomEvent(username, personID, dao, "marriage", childsBirthYear-3));
+        eventsAdded++;
+
+        // fill birth
+        dao.insert(generateRandomEvent(username, personID, dao, "death", childsBirthYear+60));
+        eventsAdded++;
+    }
+
+    private Event generateRandomEvent(String username, String personID, EventDAO dao, String type, int year) throws FileNotFoundException {
         FileReader reader = new FileReader("json/locations.json");
         // convert them to usable objects from json
         Gson gson = new Gson();
         LocationData locationData = gson.fromJson(reader, LocationData.class);
         Location location = locationData.getRandomLocation();
-        // fill birth
-        dao.insert(new Event(username,
+        return new Event(username,
                 personID,
                 location.getLatitude(),
                 location.getLongitude(),
                 location.getCountry(),
                 location.getCity(),
-                "birth",
-                childsBirthYear-20,
-                dao.generateID()));
-        eventsAdded++;
-
-        // fill birth
-        location = locationData.getRandomLocation();
-        dao.insert(new Event(username,
-                personID,
-                location.getLatitude(),
-                location.getLongitude(),
-                location.getCountry(),
-                location.getCity(),
-                "marriage",
-                childsBirthYear-3,
-                dao.generateID()));
-        eventsAdded++;
-
-        // fill birth
-        location = locationData.getRandomLocation();
-        dao.insert(new Event(username,
-                personID,
-                location.getLatitude(),
-                location.getLongitude(),
-                location.getCountry(),
-                location.getCity(),
-                "death",
-                childsBirthYear+60,
-                dao.generateID()));
-        eventsAdded++;
+                type,
+                year,
+                dao.generateID());
     }
-
 }
 

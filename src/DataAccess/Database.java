@@ -15,56 +15,6 @@ public class Database {
 
             // Open a database connection to the file given in the path
             conn = DriverManager.getConnection(CONNECTION_URL);
-
-            // make our database, but only makes one table?
-//            String sql ="CREATE TABLE if not exists users (\n" +
-//                    "\t\"username\"\tTEXT NOT NULL,\n" +
-//                    "\t\"password\"\tTEXT NOT NULL,\n" +
-//                    "\t\"email\" TEXT NOT NULL,\n" +
-//                    "\t\"FirstName\"\tTEXT NOT NULL,\n" +
-//                    "\t\"LastName\"\tTEXT NOT NULL,\n" +
-//                    "\t\"Gender\"\tTEXT NOT NULL,\n" +
-//                    "\t\"personID\"\tTEXT NOT NULL UNIQUE\n" +
-//                    "--\t\"person ID\"\tINTEGER NOT NULL UNIQUE,\n" +
-//                    "--\tPRIMARY KEY(\"person ID\" AUTOINCREMENT)\n" +
-//                    ");\n" +
-//                    "\n" +
-//                    "CREATE TABLE if not exists \"authtokens\" (\n" +
-//                    "\t\"token\"\tTEXT NOT NULL UNIQUE,\n" +
-//                    "\t\"timestamp\" text NOT NULL,\n" +
-//                    "\t\"person ID\"\tINTEGER NOT NULL UNIQUE\n" +
-//                    ");\n" +
-//                    "\n" +
-//                    "CREATE TABLE if not exists \"persons\" (\n" +
-//                    "\t\"username\"\tTEXT NOT NULL,\n" +
-//                    "\t\"First Name\"\tTEXT NOT NULL,\n" +
-//                    "\t\"Last Name\"\tTEXT NOT NULL,\n" +
-//                    "\t\"Gender\"\tTEXT NOT NULL,\n" +
-//                    "\t\"father id\" TEXT,\n" +
-//                    "\t\"mother id\" TEXT,\n" +
-//                    "\t\"spouse id\" TEXT,\n" +
-//                    "\t\"person ID\"\tINTEGER NOT NULL UNIQUE,\n" +
-//                    "\tPRIMARY KEY(\"person ID\" AUTOINCREMENT)\n" +
-//                    ");\n" +
-//                    "\n" +
-//                    "CREATE TABLE if not exists \"events\" (\n" +
-//                    "\t\"username\"\tTEXT NOT NULL,\n" +
-//                    "\t\"person id\" TEXT NOT NULL,\n" +
-//                    "\t\"latitude\" INTEGER NOT NULL,\n" +
-//                    "\t\"longitude\" INTEGER NOT NULL,\n" +
-//                    "\t\"country\" TEXT NOT NULL,\n" +
-//                    "\t\"city\" TEXT NOT NULL,\n" +
-//                    "\t\"EventType\" TEXT NOT NULL check (\"EventType\" in ('birth', 'baptism', 'christening', 'marriage', 'death')),\n" +
-//                    "\t\"event id\"\tINTEGER NOT NULL UNIQUE,\n" +
-//                    "\tPRIMARY KEY(\"event id\" AUTOINCREMENT)\n" +
-//                    "\t--constraint ck_type check (\"EventType\" in ('birth', 'baptism', 'christening', 'marriage', 'death')),\n" +
-//                    ");";
-//            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-//                stmt.execute();
-//            } catch (SQLException e) {
-//                throw new DataAccessException("Error encountered while initially inserting into the database");
-//            }
-
             // Start a transaction
             conn.setAutoCommit(false);
         } catch (SQLException e) {

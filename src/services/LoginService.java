@@ -12,7 +12,7 @@ import model.User;
 public class LoginService extends Service{
     /**
      * the biggo. stuff happens here
-     * @param request
+     * @param request The login info, translated from json.
      * @return
      */
     public Response login(LoginRequest request){
@@ -34,7 +34,7 @@ public class LoginService extends Service{
             //e.printStackTrace();
             return new ErrorResponse("error logging in the user or getting the database");
         } finally {
-            try {
+            try { // a lot of dirty bugs come from this not working out
                 db.closeConnection(true);
             } catch (DataAccessException dataAccessException) {
                 dataAccessException.printStackTrace();

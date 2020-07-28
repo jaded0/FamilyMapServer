@@ -28,7 +28,7 @@ public class ClearService extends Service{
             eventDAO.clear();
             personDAO.clear();
             userDAO.clear();
-            return new BasicSuccessResponse("cleared successfully!");
+            return new BasicSuccessResponse("clear succeeded");
         } catch (DataAccessException e) {
             e.printStackTrace();
             return new ErrorResponse("failed to clear");

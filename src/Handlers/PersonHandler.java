@@ -18,7 +18,7 @@ public class PersonHandler extends Handler{
         // get back a response from the service
         PersonService service = new PersonService();
         if (commands.length>2)
-            return service.singlePerson(commands[2]);
+            return service.singlePerson(commands[2], authToken);
         else
             return service.allPersons(authToken);
     }

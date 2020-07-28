@@ -51,7 +51,7 @@ class EventServiceTest {
 
         // make service and yank event
         EventService ser = new EventService();
-        EventSuccessResponse response = (EventSuccessResponse) ser.singleEvent(event.getEventID());
+        EventSuccessResponse response = (EventSuccessResponse) ser.singleEvent(event.getEventID(), token.getToken());
         assertEquals(response.getAssociatedUsername(),event.getAssociatedUsername());
         assertEquals(response.getEventID(), event.getEventID());
         assertEquals(response.getPersonID(), event.getPersonID());
@@ -82,7 +82,7 @@ class EventServiceTest {
 
         // make service and DON't yank event
         EventService ser = new EventService();
-        ErrorResponse response = (ErrorResponse) ser.singleEvent("worthlessid");
+        ErrorResponse response = (ErrorResponse) ser.singleEvent("worthlessid", token.getToken());
         assertFalse(response.isSuccess());
     }
 

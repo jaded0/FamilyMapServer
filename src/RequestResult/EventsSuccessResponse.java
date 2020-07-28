@@ -23,4 +23,8 @@ public class EventsSuccessResponse extends Response{
     }
 
     public void setMembers(ArrayList<Event> data) { this.data = data;}
+
+    public EventsSuccessResponse() {
+        success = true;
+    }
 }

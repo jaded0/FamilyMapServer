@@ -11,13 +11,17 @@ public class PersonsSuccessResponse extends Response{
     /**
      * Stores all family members of the current user.
      */
-    private ArrayList<Person> members;
+    private ArrayList<Person> data;
 
-    public ArrayList<Person> getMembers() {
-        return members;
+    public ArrayList<Person> getData() {
+        return data;
     }
 
-    public void setMembers(ArrayList<Person> members) {
-        this.members = members;
+    public void setData(ArrayList<Person> data) {
+        this.data = data;
+    }
+
+    public PersonsSuccessResponse() {
+        success = true;
     }
 }

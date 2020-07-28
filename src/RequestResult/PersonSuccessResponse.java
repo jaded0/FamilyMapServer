@@ -13,6 +13,11 @@ public class PersonSuccessResponse extends Response{
         this.fatherID = fatherID;
         this.motherID = motherID;
         this.spouseID = spouseID;
+        success = true;
+    }
+
+    public PersonSuccessResponse(){
+        success = true;
     }
 
     /**

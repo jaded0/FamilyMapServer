@@ -103,6 +103,7 @@ public class EventDAO {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             ResultSet rs = stmt.executeQuery();
+            // get more events until there's no more of them
             while(rs.next()) {
                 result.add(new Event(rs.getString(1),rs.getString(2),rs.getDouble(3),rs.getDouble(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getInt(8),rs.getString(9)));
             }
@@ -126,6 +127,7 @@ public class EventDAO {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             ResultSet rs = stmt.executeQuery();
+            // get more events until there's no more of them
             while(rs.next()) {
                 result.add(new Event(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
             }

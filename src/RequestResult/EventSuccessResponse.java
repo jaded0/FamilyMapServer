@@ -124,5 +124,9 @@ public class EventSuccessResponse extends Response{
         this.city = city;
         this.eventType = eventType;
         this.year = year;
+        success = true;
+    }
+    public EventSuccessResponse(){
+        success = true;
     }
 }

@@ -3,6 +3,7 @@ package Handlers;
 import DataAccess.AuthTokenDAO;
 import DataAccess.DataAccessException;
 import DataAccess.Database;
+import RequestResult.ErrorResponse;
 import RequestResult.Response;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -11,6 +12,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.sql.Connection;
 
 import com.google.gson.*;
 import model.AuthToken;
@@ -39,10 +41,32 @@ public abstract class Handler implements HttpHandler {
                         authToken = reqHeaders.getFirst("Authorization");
                         // Verify that the auth token exists
                         // sloppily sets up the database, connection, dao, and token object to do so.
-                        if (new AuthTokenDAO(new Database().getConnection()).verify(new AuthToken(authToken))) {
+
+                        Database db = new Database();
+                        Connection conn = db.getConnection();
+                        if (new AuthTokenDAO(conn).verify(new AuthToken(authToken))) {
                             success = translateJson(exchange);
                         }
+                        else {
+                            success = false;
+                            // give back an error result
+                            Response resp = new ErrorResponse("Error auth token not verified.");
+                            // turn that response into json string
+                            Gson gson = new Gson();
+                            String jsonRespStr = gson.toJson(resp);
+                            exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                            // Get the response body output stream.
+                            OutputStream respBody = exchange.getResponseBody();
+                            // Write the JSON string to the output stream.
+                            writeString(jsonRespStr, respBody);
+                            // Close the output stream.  This is how Java knows we are done
+                            // sending data and the response is complete/
+                            respBody.close();
+                            exchange.getResponseBody().close();
+                        }
+                        db.closeConnection(true);
                     }
+
                 }
                 else { // if you don't need to authenticate
                     success = translateJson(exchange);

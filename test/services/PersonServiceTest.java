@@ -50,7 +50,7 @@ class PersonServiceTest {
 
         // make service and yank person
         PersonService ser = new PersonService();
-        PersonSuccessResponse response = (PersonSuccessResponse) ser.singlePerson(person.getPersonID());
+        PersonSuccessResponse response = (PersonSuccessResponse) ser.singlePerson(person.getPersonID(), token.getToken());
         assertEquals(response.getAssociatedUsername(),person.getAssociatedUsername());
         assertEquals(response.getFatherID(), person.getFatherID());
         assertEquals(response.getFirstName(), person.getFirstName());
@@ -80,7 +80,7 @@ class PersonServiceTest {
 
         // make service and DON't yank person
         PersonService ser = new PersonService();
-        ErrorResponse response = (ErrorResponse) ser.singlePerson("worthlessid");
+        ErrorResponse response = (ErrorResponse) ser.singlePerson("worthlessid", token.getToken());
         assertFalse(response.isSuccess());
     }
 
@@ -97,7 +97,7 @@ class PersonServiceTest {
         // get the response containing all of the automatically generated persons using the authtoken
         PersonsSuccessResponse allPersonsResult = (PersonsSuccessResponse) service.allPersons(response.getAuthToken());
         // count up the ones received and make sure that they are the amount that is automatically generated in the table
-        assertEquals(31, allPersonsResult.getMembers().size());
+        assertEquals(31, allPersonsResult.getData().size());
         //db.closeConnection(false);
     }
 
@@ -122,7 +122,7 @@ class PersonServiceTest {
         // get the response containing all of the automatically generated persons using the authtoken
         PersonsSuccessResponse allPersonsResult = (PersonsSuccessResponse) service.allPersons(response.getAuthToken());
         // count up the ones received and make sure that they are the amount that is automatically generated in the table
-        assertEquals(0, allPersonsResult.getMembers().size());
+        assertEquals(0, allPersonsResult.getData().size());
         //db.closeConnection(false);
     }
 }

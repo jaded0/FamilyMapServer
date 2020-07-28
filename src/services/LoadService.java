@@ -19,7 +19,7 @@ import model.User;
 public class LoadService extends Service{
     /**
      * do the loading.
-     * @param request
+     * @param request Request data to be loaded.
      * @return
      */
     public Response load(LoadRequest request){
@@ -39,6 +39,7 @@ public class LoadService extends Service{
         PersonDAO personDAO = new PersonDAO(conn);
         EventDAO eventDAO = new EventDAO(conn);
         try {
+            // loop through each section of the database and insert the given data
             for (User u :
                     request.getUsers()) {
                 userDAO.insert(u);

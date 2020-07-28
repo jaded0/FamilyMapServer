@@ -29,7 +29,18 @@ public class FileHandler implements HttpHandler {
 
                 File actualFile = new File(filePath);
                 // return 404 not found if there's no such file
-                if (!actualFile.exists()) exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
+                if (!actualFile.exists()){
+                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
+
+                    // Now that the status code and headers have been sent to the client,
+                    // next we send the page data in the response body
+                    OutputStream respBody = exchange.getResponseBody();
+                    Files.copy(new File("web/HTML/404.html").toPath(), respBody);
+
+                    // Close the output stream.  This is how Java knows we are done
+                    // sending data and the response is complete/
+                    respBody.close();
+                }
                 else {
                     // Start sending the HTTP response to the client, starting with
                     // the status code and any defined headers.

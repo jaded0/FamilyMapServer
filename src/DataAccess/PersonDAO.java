@@ -125,6 +125,7 @@ public class PersonDAO {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             ResultSet rs = stmt.executeQuery();
+            // get more persons until there's no more of them
             while(rs.next()) {
                 result.add(new Person(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
             }
@@ -133,13 +134,5 @@ public class PersonDAO {
         }
 
         return result;
-    }
-
-    /**
-     * fill generational data for this person.
-     * @param person
-     */
-    public void fill(Person person){
-
     }
 }

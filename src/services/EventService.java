@@ -21,10 +21,16 @@ public class EventService extends Service{
      * @param eventID
      * @return
      */
-    public Response singleEvent(String eventID){
+    public Response singleEvent(String eventID, String authtoken){
         EventDAO eventDAO = new EventDAO(conn);
         try {
+            // get the event
             Event event = eventDAO.retrieve(eventID);
+
+            // validate that the user has the rights to get this person
+            AuthTokenDAO authTokenDAO = new AuthTokenDAO(conn);
+            if (!authTokenDAO.getUsernameForAuthtoken(authtoken).equals(event.getAssociatedUsername()))
+                return new ErrorResponse("Error you arecertainlynot authorized to get that event info");
 
             return new EventSuccessResponse(
                     event.getAssociatedUsername(),
@@ -37,7 +43,7 @@ public class EventService extends Service{
                     event.getEventType(),
                     event.getYear());
         } catch (DataAccessException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return new ErrorResponse("Error while getting single event");
         } finally {
             try {
@@ -49,9 +55,9 @@ public class EventService extends Service{
     }
 
     /**
-     * Returns ALL family members of the current user.
+     * Returns ALL events of the specified user.
      * The current user is determined from the provided auth token.
-     * @param authtoken
+     * @param authtoken used to ascertain the user's identity.
      * @return
      */
     public Response allEvents(String authtoken){

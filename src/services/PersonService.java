@@ -18,14 +18,19 @@ public class PersonService extends Service{
 
     /**
      * Returns the single Person object with the specified ID.
-     * @param personID
+     * @param personID Unique person identifier in order to find the item.
+     * @param authtoken Used to verify that the person data belongs to the user.
      * @return
      */
-    public Response singlePerson(String personID){
+    public Response singlePerson(String personID, String authtoken){
         PersonDAO personDAO = new PersonDAO(conn);
         try {
             Person person = personDAO.retrieve(personID);
 
+            // validate that the user has the rights to get this person
+            AuthTokenDAO authTokenDAO = new AuthTokenDAO(conn);
+            if (!authTokenDAO.getUsernameForAuthtoken(authtoken).equals(person.getAssociatedUsername()))
+                return new ErrorResponse("Error you arecertainlynot authorized to get that person info");
             return new PersonSuccessResponse(person.getAssociatedUsername(),
                     person.getPersonID(),
                     person.getFirstName(),
@@ -35,7 +40,7 @@ public class PersonService extends Service{
                     person.getMotherID(),
                     person.getSpouseID());
         } catch (DataAccessException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return new ErrorResponse("Error while getting single person");
         } finally {
             try {
@@ -49,7 +54,7 @@ public class PersonService extends Service{
     /**
      * Returns ALL family members of the current user.
      * The current user is determined from the provided auth token.
-     * @param authtoken
+     * @param authtoken Used to ascertain the user from which to pull the person data out of.
      * @return
      */
     public Response allPersons(String authtoken){
@@ -57,10 +62,11 @@ public class PersonService extends Service{
         // get username for authtoken
         AuthTokenDAO tokenDAO = new AuthTokenDAO(conn);
         try {
+            // find username, then person list by username, then place that into the result and send it out
             String username = tokenDAO.getUsernameForAuthtoken(authtoken);
             ArrayList<Person> persons = personDAO.getPersonsForUsername(username);
             PersonsSuccessResponse result = new PersonsSuccessResponse();
-            result.setMembers(persons);
+            result.setData(persons);
 
             return result;
         } catch (DataAccessException e) {
